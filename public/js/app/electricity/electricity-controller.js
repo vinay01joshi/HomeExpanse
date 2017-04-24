@@ -84,7 +84,7 @@ var ElectricityController = function (ElecitrycityService) {
                 if (key < tdArray.length - 1) {
                     var newContent = objValue.attr('data-value');
                     objValue.html(newContent);
-                } else {    
+                } else {
                     var newContent = '<button class="btn btn-small btn-edit">Edit</button>';
                     objValue.html(newContent);
                 }
@@ -175,12 +175,38 @@ var ElectricityController = function (ElecitrycityService) {
         ElecitrycityService
             .updateCurrentYearData(id, payload)
             .then((data) => {
-               rebindRows(tr);
+                rebindRows(tr);
             })
             .catch((err) => {
                 console.log(err);
             });
     })
+
+    $('.clickMe').click(function () {
+        "use strict";
+        $(this).hide();
+        $('#' + $(this).attr('for'))
+            .val($(this).text())
+            .toggleClass("form-control")
+            .show()
+            .focus();
+    });
+
+    $('.blur').blur(function () {
+        "use strict";
+        $(this)
+            .hide()
+            .toggleClass("form-control");
+        var myid = (this).id;
+        $('span[for=' + myid + ']')
+            .text($(this).val())
+            .show();
+    });
+
+    $('.selectpicker').on('change', function(){
+        var selected = $(this).find("option:selected").val();
+        //alert(selected);
+    });
     //main page call
     pageLoad();
 }(ElecitrycityService);
