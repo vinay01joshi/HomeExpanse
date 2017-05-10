@@ -1,6 +1,10 @@
 const {mongoose} = require('../db/mongoose');
 
 var ElectricitySchema = new mongoose.Schema({
+    year : {
+        type : Number,
+        required : true
+    },
     month : {
         type : String,
         required  : true,

@@ -4,10 +4,15 @@ var ElectricityController = function (ElecitrycityService) {
     var bindElectricityGrid;
     var bindButtons;
     var rebindRows;
+    var selectedYear ;
 
-    var pageLoad = function () {
+    var pageLoad = function (selectedYear) {
+        
+        selectedYear =  selectedYear || new Date().getFullYear();
+        $('.selectpicker').selectpicker('val', selectedYear);
+
         ElecitrycityService
-            .getCurrentYearData()
+            .getCurrentYearData(selectedYear)
             .then((data) => {
                 electricityData = data;
                 bindElectricityGrid(data);
@@ -18,10 +23,15 @@ var ElectricityController = function (ElecitrycityService) {
     };
 
     bindElectricityGrid = function (electricityData) {
-        if (!electricityData)
-            return;
 
         var gridElectricity = $('#grid-electricity');
+        var gridElectricityBody  = $('#grid-electricity tbody');
+        if (electricityData.length == 0){
+            gridElectricityBody.empty();
+        }
+            
+
+        
         $.each(electricityData, function (key, value) {
             var difference = value.new - value.old;
             var totalMoney = difference * value.ratePerUnit;
@@ -133,7 +143,7 @@ var ElectricityController = function (ElecitrycityService) {
         var tr = $(this).closest("tr");
         var tdArray = tr.children();
         var payload = {};
-
+        payload.year = selectedYear;
         $.each(tdArray, function (key, value) {
             var objvalue = $(value);
             if (key == 0)
@@ -183,7 +193,6 @@ var ElectricityController = function (ElecitrycityService) {
     })
 
     $('.clickMe').click(function () {
-        "use strict";
         $(this).hide();
         $('#' + $(this).attr('for'))
             .val($(this).text())
@@ -192,8 +201,7 @@ var ElectricityController = function (ElecitrycityService) {
             .focus();
     });
 
-    $('.blur').blur(function () {
-        "use strict";
+    $('.blur').blur(function () {       
         $(this)
             .hide()
             .toggleClass("form-control");
@@ -205,7 +213,8 @@ var ElectricityController = function (ElecitrycityService) {
 
     $('.selectpicker').on('change', function(){
         var selected = $(this).find("option:selected").val();
-        //alert(selected);
+        selectedYear = selected;
+        pageLoad(selectedYear);
     });
     //main page call
     pageLoad();

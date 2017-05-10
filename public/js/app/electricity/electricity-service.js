@@ -3,12 +3,13 @@ var ElecitrycityService = function(){
     var getCurrentYearData;
     var saveCurrentYearData;
     var updateCurrentYearData;
-    getCurrentYearData = (data) => {
+    getCurrentYearData = (year) => {
         var defer = $.Deferred();
         $.ajax({
             type : 'GET',
             url : '/users/electricity',
             async : false,
+            data : {year : year},
             dataType : 'json',
             headers: { 'x-auth': $.cookie("token") },            
             success : function(data,status,xhr){                             

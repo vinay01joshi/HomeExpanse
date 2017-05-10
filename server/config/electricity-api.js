@@ -10,6 +10,7 @@ module.exports = (app)=>{
 
     app.post('/users/electricity',authenticate,(req,res)=>{        
         var electricity = new Electricity({
+            year : req.body.year,
             month : req.body.month,
             old : req.body.old,
             new : req.body.new,
@@ -24,10 +25,10 @@ module.exports = (app)=>{
         });
     });
 
-    app.get('/users/electricity',authenticate,(req,res)=>{
-
+    app.get('/users/electricity',authenticate,(req,res)=>{      
         Electricity.find({
-            _creator : req.user._id
+            _creator : req.user._id,
+            year : req.query.year            
         }).then((result)=>{
             res.send(result);
         },(e)=>{
