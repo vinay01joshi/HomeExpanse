@@ -4,8 +4,10 @@ var ElectricityController = function (ElecitrycityService) {
     var bindElectricityGrid;
     var bindButtons;
     var rebindRows;
-    var selectedYear ;
-
+    var selectedYear= new Date().getFullYear() ;
+    var isRebind = false;
+    var months = ['January','February','March','April','May','June','July','Aughust','September','October','November','December'];    
+            
     var pageLoad = function (selectedYear) {
         
         selectedYear =  selectedYear || new Date().getFullYear();
@@ -26,7 +28,7 @@ var ElectricityController = function (ElecitrycityService) {
 
         var gridElectricity = $('#grid-electricity');
         var gridElectricityBody  = $('#grid-electricity tbody');
-        if (electricityData.length == 0){
+        if (electricityData.length == 0 || isRebind){
             gridElectricityBody.empty();
         }
             
@@ -50,6 +52,7 @@ var ElectricityController = function (ElecitrycityService) {
         bindButtons();
     };
 
+    //Edit button clicked
     bindButtons = function () {
         $('#grid-electricity').on('click', ".btn-edit", function () {
             var tr = $(this).closest("tr");
@@ -74,8 +77,13 @@ var ElectricityController = function (ElecitrycityService) {
                 $.each(tdArray, function (key, value) {
                     var objValue = $(value);
                     if (key < tdArray.length - 1) {
-                        var newContent = `<input type="text" class="form-control" value="${value.innerHTML}"/>`;
-                        objValue.html(newContent);
+                        if(key ==0 ){
+                             objValue.html(getDropDownValue(value.innerHTML));
+                        }else{
+                            var newContent = `<input type="text" class="form-control" value="${value.innerHTML}"/>`;
+                         objValue.html(newContent);
+                        }
+                       
                     } else {
                         var newContent = '<button class="btn btn-success btn-update">Update</button>';
                         objValue.html(newContent);
@@ -102,6 +110,7 @@ var ElectricityController = function (ElecitrycityService) {
         }
     }
 
+    // Add new row in grid
     $('#add-new-row').on('click', function () {
         console.log(electricityData);
         var addbleRows = $('#grid-electricity tr[data-addable=true]');
@@ -122,12 +131,13 @@ var ElectricityController = function (ElecitrycityService) {
                 }
             });
         }
-
+     
+        var dropdownContent = getDropDownValue("May");
         if (addbleRows.length > 0)
             return;
         var newContent = '';
         newContent += '<tr data-addable="true">';
-        newContent += '<td><input type="text" class="form-control"/></td>'
+        newContent += `<td>${dropdownContent}</td>`
         newContent += '<td><input type="text" class="form-control"/></td>'
         newContent += '<td><input type="text" class="form-control"/></td>'
         newContent += '<td><input type="text" class="form-control"/></td>'
@@ -147,7 +157,7 @@ var ElectricityController = function (ElecitrycityService) {
         $.each(tdArray, function (key, value) {
             var objvalue = $(value);
             if (key == 0)
-                payload.month = objvalue.find("input").val();
+                payload.month = objvalue.find("select").text();
             else if (key == 1)
                 payload.old = objvalue.find("input").val();
             else if (key == 2)
@@ -165,6 +175,7 @@ var ElectricityController = function (ElecitrycityService) {
             });
     });
 
+    // update button click
     $('#grid-electricity').on('click', '.btn-update', function () {
         var tr = $(this).closest("tr");
         var id = tr.attr('data-id');
@@ -174,7 +185,7 @@ var ElectricityController = function (ElecitrycityService) {
         $.each(tdArray, function (key, value) {
             var objvalue = $(value);
             if (key == 0)
-                payload.month = objvalue.find("input").val();
+                payload.month = objvalue.find("select").text();
             else if (key == 1)
                 payload.old = objvalue.find("input").val();
             else if (key == 2)
@@ -192,6 +203,7 @@ var ElectricityController = function (ElecitrycityService) {
             });
     })
 
+    // Label editable
     $('.clickMe').click(function () {
         $(this).hide();
         $('#' + $(this).attr('for'))
@@ -211,11 +223,25 @@ var ElectricityController = function (ElecitrycityService) {
             .show();
     });
 
+    // selected index changed in year dropdown
     $('.selectpicker').on('change', function(){
         var selected = $(this).find("option:selected").val();
         selectedYear = selected;
+        isRebind = true;
         pageLoad(selectedYear);
     });
+
+    function getDropDownValue(monthName){
+        var dropdownContent = `<select class="form-control select-control">`;
+        for(var i=0 ;i <months.length ;i++){
+            if(monthName == months[i])
+                dropdownContent += `<option value="${i}" selected>${months[i]}</option>`;
+            else
+               dropdownContent += `<option value="${i}">${months[i]}</option>`; 
+        }
+        dropdownContent += `</select>`
+        return dropdownContent;
+    }
     //main page call
     pageLoad();
 }(ElecitrycityService);
