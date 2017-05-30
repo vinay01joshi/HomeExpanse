@@ -38,7 +38,7 @@ module.exports = (app)=>{
 
     app.patch('/users/electricity/:id',authenticate,(req,res)=>{
         var id = req.params.id ;
-        var body = _.pick(req.body,['old','new']);
+        var body = _.pick(req.body,['old','new','month']);
        
         if(!ObjectID.isValid(id)){           
             res.status(404).send();

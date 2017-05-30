@@ -28,12 +28,9 @@ var ElectricityController = function (ElecitrycityService) {
 
         var gridElectricity = $('#grid-electricity');
         var gridElectricityBody  = $('#grid-electricity tbody');
-        if (electricityData.length == 0 || isRebind){
-            gridElectricityBody.empty();
-        }
-            
-
         
+        gridElectricityBody.empty();
+                            
         $.each(electricityData, function (key, value) {
             var difference = value.new - value.old;
             var totalMoney = difference * value.ratePerUnit;
@@ -54,7 +51,8 @@ var ElectricityController = function (ElecitrycityService) {
 
     //Edit button clicked
     bindButtons = function () {
-        $('#grid-electricity').on('click', ".btn-edit", function () {
+        $('#grid-electricity .btn-edit').unbind('click').bind('click', function () {
+        // $('#grid-electricity').on('click', ".btn-edit", function () {
             var tr = $(this).closest("tr");
             var editableRows = $('#grid-electricity tr[data-editable=false]');
             if (editableRows.length > 0) {
@@ -91,23 +89,6 @@ var ElectricityController = function (ElecitrycityService) {
                 });
             }
         });
-    }
-
-    rebindRows = function (tr) {
-        var isDataEditable = tr.attr('data-editable');
-        if (isDataEditable === "false") {
-            var tdArray = tr.children();
-            $.each(tdArray, function (key, value) {
-                var objValue = $(value);
-                if (key < tdArray.length - 1) {
-                    var newContent = objValue.attr('data-value');
-                    objValue.html(newContent);
-                } else {
-                    var newContent = '<button class="btn btn-small btn-edit">Edit</button>';
-                    objValue.html(newContent);
-                }
-            });
-        }
     }
 
     // Add new row in grid
@@ -157,7 +138,7 @@ var ElectricityController = function (ElecitrycityService) {
         $.each(tdArray, function (key, value) {
             var objvalue = $(value);
             if (key == 0)
-                payload.month = objvalue.find("select").text();
+                payload.month = objvalue.find("select option:selected").text();
             else if (key == 1)
                 payload.old = objvalue.find("input").val();
             else if (key == 2)
@@ -168,7 +149,7 @@ var ElectricityController = function (ElecitrycityService) {
         ElecitrycityService
             .saveCurrentYearData(payload)
             .then((data) => {
-                console.log(data);
+                pageLoad(selectedYear);
             })
             .catch((err) => {
                 console.log(err);
@@ -179,13 +160,13 @@ var ElectricityController = function (ElecitrycityService) {
     $('#grid-electricity').on('click', '.btn-update', function () {
         var tr = $(this).closest("tr");
         var id = tr.attr('data-id');
-
+        var selected = $(this).find("option:selected").val();
         var tdArray = tr.children();
         var payload = {};
         $.each(tdArray, function (key, value) {
             var objvalue = $(value);
             if (key == 0)
-                payload.month = objvalue.find("select").text();
+                payload.month = objvalue.find("select option:selected").text();
             else if (key == 1)
                 payload.old = objvalue.find("input").val();
             else if (key == 2)
@@ -195,8 +176,8 @@ var ElectricityController = function (ElecitrycityService) {
         });
         ElecitrycityService
             .updateCurrentYearData(id, payload)
-            .then((data) => {
-                rebindRows(tr);
+            .then((data) => {               
+                pageLoad(selectedYear);
             })
             .catch((err) => {
                 console.log(err);
