@@ -9,43 +9,40 @@
 
 <div class="panel panel-success">
     <div class="panel-heading">
-        Settings
-    </div>
-    <div class="panel-body">
-        <div class="row">
-            <div class="col-md-4">
-                <select class="selectpicker" data-style="btn-primary">
+         <div class="input-group">
+            <div class="div-year">
+                <select class="selectpicker" data-style="btn-primary" data-width="auto">
                     <option>2017</option>
                     <option>2016</option>
                     <option>2015</option>
                 </select>
             </div>
-            <div class="col-sm-2 col-md-4">             
-                    <h3><span class="label label-default clickMe" for="textBox1">8.5</span></h3>
-                    <input value="" type="text" id="textBox1" name="textBox1" class="blur" hidden>              
+
+            <div class="div-rate-per-unit">
+                <h3><span class="label label-default clickMe" for="textBox1">8.5</span></h3>
+                <input value="" type="text" id="textBox1" name="textBox1" class="blur" hidden>
             </div>
-            <div class="col-md-4">Some More settings</div>
         </div>
     </div>
-</div>
 
-<div class="panel panel-default">
-    <div class="panel-heading">
-        <button id="add-new-row" class="btn btn-success">ADD</button>
+    <div class="panel-body">
+    <div class="panel panel-default">
+        <div class="panel-heading">
+            <button id="add-new-row" class="btn btn-success">ADD</button>
+        </div>
+        <table class="table table-bordered table-striped" id="grid-electricity">
+            <thead>
+                <tr>
+                    <th>Month</th>
+                    <th>OLD</th>
+                    <th>NEW</th>
+                    <th>DIFF</th>
+                    <th>RATE</th>
+                    <th>TOTAL</th>
+                    <th>--</th>
+                </tr>
+            </thead>
+            <tbody>
+            </tbody>
+        </table>
     </div>
-    <table class="table table-bordered table-striped" id="grid-electricity">
-        <thead>
-            <tr>
-                <th>Month</th>
-                <th>OLD</th>
-                <th>NEW</th>
-                <th>DIFF</th>
-                <th>RATE</th>
-                <th>TOTAL</th>
-                <th>--</th>
-            </tr>
-        </thead>
-        <tbody>
-        </tbody>
-    </table>
-</div>
