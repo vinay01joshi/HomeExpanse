@@ -2,9 +2,10 @@ var gulp  = require('gulp');
 var jshint = require('gulp-jshint');
 var jscs = require('gulp-jscs');
 gulp.task('vet',function(){
-    gulp.src([
+    gulp.src([       
         './server/**/*.js',
-        './*.js'
+        './*.js',
+        './public/js/**/*.js'
     ])
     .pipe(jscs())
     .pipe(jshint())
