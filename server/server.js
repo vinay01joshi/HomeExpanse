@@ -43,3 +43,6 @@ require('./config/electricity-api')(app);
 app.listen(PORT,()=>{
     console.log(`server is up on port ${PORT}`);
 });
+
+
+module.exports = {app};
