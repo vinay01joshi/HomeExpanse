@@ -22,11 +22,15 @@
   "devDependencies": {
     "expect": "^1.20.2",
     "gulp": "^3.9.1",
+    "gulp-if": "^2.0.2",
     "gulp-jscs": "^4.0.0",
     "gulp-jshint": "^2.0.4",
+    "gulp-print": "^2.0.1",
+    "gulp-util": "^3.0.8",
     "jshint": "^2.9.4",
     "jshint-stylish": "^2.2.1",
     "mocha": "^3.4.2",
-    "supertest": "^3.0.0"
+    "supertest": "^3.0.0",
+    "yargs": "^8.0.1"
   }
 }
