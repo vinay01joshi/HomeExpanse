@@ -1,5 +1,5 @@
 var RegisterService = function(){
-     'use strict'
+     'use strict';
     var registerUser;
 
     registerUser = (data) => {
@@ -22,5 +22,5 @@ var RegisterService = function(){
 
     return {
         registerUser : registerUser
-    }   
+    };   
 }();

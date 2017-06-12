@@ -43,7 +43,7 @@ var ElectricityController = function (ElecitrycityService) {
             rowContent += `<td data-value="${value.ratePerUnit}">` + value.ratePerUnit + '</td>';
             rowContent += `<td data-value="${totalMoney}">` + totalMoney + '</td>';
             rowContent += '<td><button class="btn btn-small btn-edit">Edit</button></td>';
-            rowContent += '</tr>'
+            rowContent += '</tr>';
             gridElectricity.append(rowContent);
         });
         bindButtons();
@@ -54,49 +54,51 @@ var ElectricityController = function (ElecitrycityService) {
         $('#grid-electricity .btn-edit').unbind('click').bind('click', function () {
         // $('#grid-electricity').on('click', ".btn-edit", function () {
             var tr = $(this).closest("tr");
+            var newContent;
             var editableRows = $('#grid-electricity tr[data-editable=false]');
+            var tdArray ;
             if (editableRows.length > 0) {
                 $(editableRows[0]).attr('data-editable', true);
-                var tdArray = editableRows.children();
+                tdArray = editableRows.children();
                 $.each(tdArray, function (key, value) {
                     var objValue = $(value);
                     if (key < tdArray.length - 1) {
-                        var newContent = objValue.attr('data-value');
+                        newContent = objValue.attr('data-value');
                         objValue.html(newContent);
                     } else {
-                        var newContent = '<button class="btn btn-small btn-edit">Edit</button>';
+                        newContent = '<button class="btn btn-small btn-edit">Edit</button>';
                         objValue.html(newContent);
                     }
                 });
             }
             if (tr.attr('data-editable') === "true") {
                 tr.attr('data-editable', false);
-                var tdArray = tr.children();
+                tdArray = tr.children();
                 $.each(tdArray, function (key, value) {
                     var objValue = $(value);
                     if (key < tdArray.length - 1) {
-                        if(key ==0 ){
+                        if(key === 0 ){
                              objValue.html(getDropDownValue(value.innerHTML));
                         }else{
-                            var newContent = `<input type="text" class="form-control" value="${value.innerHTML}"/>`;
+                            newContent = `<input type="text" class="form-control" value="${value.innerHTML}"/>`;
                          objValue.html(newContent);
                         }
                        
                     } else {
-                        var newContent = '<button class="btn btn-success btn-update">Update</button>';
+                        newContent = '<button class="btn btn-success btn-update">Update</button>';
                         objValue.html(newContent);
                     }
                 });
             }
         });
-    }
+    };
 
     // Add new row in grid
     $('#add-new-row').on('click', function () {
         console.log(electricityData);
         var addbleRows = $('#grid-electricity tr[data-addable=true]');
         var editableRows = $('#grid-electricity tr[data-editable=false]');
-
+        var newContent;
 
         if (editableRows.length > 0) {
             $(editableRows[0]).attr('data-editable', true);
@@ -104,10 +106,10 @@ var ElectricityController = function (ElecitrycityService) {
             $.each(tdArray, function (key, value) {
                 var objValue = $(value);
                 if (key < tdArray.length - 1) {
-                    var newContent = objValue.attr('data-value');
+                    newContent = objValue.attr('data-value');
                     objValue.html(newContent);
                 } else {
-                    var newContent = '<button class="btn btn-small btn-edit">Edit</button>';
+                    newContent = '<button class="btn btn-small btn-edit">Edit</button>';
                     objValue.html(newContent);
                 }
             });
@@ -116,15 +118,15 @@ var ElectricityController = function (ElecitrycityService) {
         var dropdownContent = getDropDownValue("May");
         if (addbleRows.length > 0)
             return;
-        var newContent = '';
+        newContent = '';
         newContent += '<tr data-addable="true">';
-        newContent += `<td>${dropdownContent}</td>`
-        newContent += '<td><input type="text" class="form-control"/></td>'
-        newContent += '<td><input type="text" class="form-control"/></td>'
-        newContent += '<td><input type="text" class="form-control"/></td>'
-        newContent += '<td><input type="text" class="form-control"/></td>'
-        newContent += '<td><input type="text" class="form-control"/></td>'
-        newContent += '<td><button class="btn btn-small btn-save">Save</button></td>'
+        newContent += `<td>${dropdownContent}</td>`;
+        newContent += '<td><input type="text" class="form-control"/></td>';
+        newContent += '<td><input type="text" class="form-control"/></td>';
+        newContent += '<td><input type="text" class="form-control"/></td>';
+        newContent += '<td><input type="text" class="form-control"/></td>';
+        newContent += '<td><input type="text" class="form-control"/></td>';
+        newContent += '<td><button class="btn btn-small btn-save">Save</button></td>';
         newContent += '</tr>';
         jQuery('#grid-electricity').append(newContent);
     });
@@ -137,15 +139,15 @@ var ElectricityController = function (ElecitrycityService) {
         payload.year = selectedYear;
         $.each(tdArray, function (key, value) {
             var objvalue = $(value);
-            if (key == 0)
+            if (key === 0)
                 payload.month = objvalue.find("select option:selected").text();
-            else if (key == 1)
+            else if (key === 1)
                 payload.old = objvalue.find("input").val();
-            else if (key == 2)
+            else if (key === 2)
                 payload.new = objvalue.find("input").val();
-            else if (key == 4)
+            else if (key === 4)
                 payload.ratePerUnit = objvalue.find("input").val();
-        })
+        });
         ElecitrycityService
             .saveCurrentYearData(payload)
             .then((data) => {
@@ -165,11 +167,11 @@ var ElectricityController = function (ElecitrycityService) {
         var payload = {};
         $.each(tdArray, function (key, value) {
             var objvalue = $(value);
-            if (key == 0)
+            if (key === 0)
                 payload.month = objvalue.find("select option:selected").text();
-            else if (key == 1)
+            else if (key === 1)
                 payload.old = objvalue.find("input").val();
-            else if (key == 2)
+            else if (key === 2)
                 payload.new = objvalue.find("input").val();
             else if (key == 4)
                 payload.ratePerUnit = objvalue.find("input").val();
@@ -182,7 +184,7 @@ var ElectricityController = function (ElecitrycityService) {
             .catch((err) => {
                 console.log(err);
             });
-    })
+    });
 
     // Label editable
     $('.clickMe').click(function () {
@@ -220,7 +222,7 @@ var ElectricityController = function (ElecitrycityService) {
             else
                dropdownContent += `<option value="${i}">${months[i]}</option>`; 
         }
-        dropdownContent += `</select>`
+        dropdownContent += `</select>`;
         return dropdownContent;
     }
     //main page call

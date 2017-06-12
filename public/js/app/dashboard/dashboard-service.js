@@ -1,5 +1,5 @@
 var DashboardService = function(){
-     'use strict'
+     'use strict';
     var getLoginUserDetails;
 
     getLoginUserDetails = (data) => {
@@ -22,5 +22,5 @@ var DashboardService = function(){
 
     return {
         getLoginUserDetails
-    }   
+    };   
 }();

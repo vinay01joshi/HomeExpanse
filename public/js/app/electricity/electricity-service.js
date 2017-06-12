@@ -1,5 +1,5 @@
 var ElecitrycityService = function(){
-    'use strict'
+    'use strict';
     var getCurrentYearData;
     var saveCurrentYearData;
     var updateCurrentYearData;
@@ -39,7 +39,7 @@ var ElecitrycityService = function(){
             }
         });
          return defer.promise();
-    }
+    };
 
      updateCurrentYearData = (id,data)=>{
       var defer = $.Deferred();
@@ -58,7 +58,7 @@ var ElecitrycityService = function(){
             }
         });
          return defer.promise();
-    }
+    };
 
     return {
         getCurrentYearData,

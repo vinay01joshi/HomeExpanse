@@ -21,5 +21,5 @@ var RegisterController =  function(RegisterService){
          var password = $('#password').val();
          var data = {email,name,password};
          registerUser(data);
-     })
+     });
 }(RegisterService);

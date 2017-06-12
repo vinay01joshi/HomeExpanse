@@ -1,7 +1,7 @@
 var dashboardController = function(DashboardService){
     'use strict';
     //var sidebarMenus =  $('#sidebar li');
-    var allUrlContent = window.location.href.split('/')
+    var allUrlContent = window.location.href.split('/');
     var currentPage = allUrlContent[allUrlContent.length -1];
     
     var selector = '#sidebar li' ;   

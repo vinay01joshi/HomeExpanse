@@ -49,4 +49,4 @@ module.exports = (app) => {
             serviceUrl : `/js/app/${fileName}/${fileName}-service.js`
         });
     });
-}
+};

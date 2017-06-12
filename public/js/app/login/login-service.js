@@ -1,5 +1,5 @@
 var LoginService = function(){
-    'use strict'
+    'use strict';
     var authenticateUser;
 
     authenticateUser = (data) => {

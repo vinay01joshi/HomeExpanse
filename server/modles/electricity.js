@@ -27,7 +27,7 @@ var ElectricitySchema = new mongoose.Schema({
         type : mongoose.Schema.Types.ObjectId,
         required : true
     }
-})
+});
 
 var Electricity = mongoose.model('Electricity',ElectricitySchema);
 module.exports = {Electricity};
