@@ -3,6 +3,10 @@ var args = require('yargs').argv;
 var config = require('./gulp.config')();
 var exec = require('child_process').exec;
 var $  = require('gulp-load-plugins')({lazy : true});
+var nodemon = require('gulp-nodemon');
+var bg = require('gulp-bg');
+
+let bgtask;
 
 gulp.task('vet',function(){
     log('Analyzing source with JSHint and JSCS');
@@ -16,16 +20,18 @@ gulp.task('vet',function(){
 });
 
 
-gulp.task('server',(cb)=>{
-    log('---- Starting Mongo db Server ----- localhost://HomExpanse');
-    exec('mongod --dbpath c:/users/vjosh8/mongo-data',function(err,stdout,stderr){
-        console.log(stdout);
-        console.log(stderr);
-        cb(err);
-    });
+gulp.task('start',['vet','start-mongo-server'],()=>{
+     nodemon({
+        script: config.nodeon.script,
+        watch : [config.allServerJs],
+        ext: 'hbs',
+        env: { 'NODE_ENV': 'development' }
+  });
 });
 
-/* reusable function */
+gulp.task("start-mongo-server", bgtask = bg(config.mongodb.exe, config.mongodb.flag, config.mongodb.dbpath));
+
+/* reusable function */ //
 function log(msg){
     if(typeof(msg) == 'object'){
         for(var item in msg){
