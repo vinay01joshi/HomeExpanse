@@ -25,7 +25,7 @@ module.exports = ()=>{
         mongodb:{
             exe : 'mongod',
             flag : '--dbpath',
-            dbpath : 'c:/users/vinay-joshi/mongo-data'
+            dbpath : 'c:/users/vjosh8/mongo-data'
         }
     };
 
